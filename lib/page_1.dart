@@ -16,7 +16,7 @@ class pageOneState extends State<pageOne>{
   Widget build(BuildContext context){
     return Scaffold(
       body: Center(
-        child: Column(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Titulo"),
             SizedBox(height: 20,),
