@@ -1,3 +1,4 @@
+import 'package:app_new/page_1.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -59,10 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             //boton de cambio de pagina
-            const SizedBox(height: 20,),
-            ElevatedButton(onPressed: (){
-              
-            }, child: const Text("Next Page"))
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => pageOne(),));
+                },
+                child: const Text("Next Page"))
           ],
         ),
       ),
