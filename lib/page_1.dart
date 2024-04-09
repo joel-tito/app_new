@@ -14,11 +14,16 @@ class pageOneState extends State<pageOne>{
 
   @override
   Widget build(BuildContext context){
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           children: [
-            Text("Titulo")
+            Text("Titulo"),
+            SizedBox(height: 20,),
+            ElevatedButton(onPressed:() {
+              
+            }, child: Text("boton")),
+
           ],
         ),
       ),
