@@ -15,6 +15,13 @@ class pageOneState extends State<pageOne>{
   @override
   Widget build(BuildContext context){
     return const Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            Text("Titulo")
+          ],
+        ),
+      ),
 
     );
   }
