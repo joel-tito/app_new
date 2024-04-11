@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 20,
             ),
-            Text("Cambio de pagina"),
+            Text("Cambio de pagina 1"),
             ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => pageOne(),));
