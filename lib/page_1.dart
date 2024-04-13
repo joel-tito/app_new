@@ -19,11 +19,10 @@ class pageOneState extends State<pageOne>{
         child: Column(mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Hola soy Joel"),
+            Text("Hola soy Pepe"),
             SizedBox(height: 20,),
             ElevatedButton(onPressed:() {
-              
             }, child: Text("boton")),
-
           ],
         ),
       ),
