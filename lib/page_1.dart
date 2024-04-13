@@ -18,7 +18,7 @@ class pageOneState extends State<pageOne>{
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Pagina uno"),
+            Text("Hola soy Joel"),
             SizedBox(height: 20,),
             ElevatedButton(onPressed:() {
               
