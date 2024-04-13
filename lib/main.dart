@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Text("Cambio de pagina 1"),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => pageOne(),));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => pageOne(),));
                 },
                 child: const Text("Next Page"))
           ],
