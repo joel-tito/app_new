@@ -21,6 +21,7 @@ class pageOneState extends State<pageOne>{
             Text("Hola soy Joel"),
             Text("Hola soy Pepe"),
             Text("hola michu"),
+            Text("hola michu2"),
             SizedBox(height: 20,),
             ElevatedButton(onPressed:() {
               Navigator.of(context).pop();
