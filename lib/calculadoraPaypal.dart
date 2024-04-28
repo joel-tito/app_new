@@ -6,12 +6,22 @@ class CalculadoraPaypal extends StatefulWidget {
   _CalculadoraPaypalState createState() => _CalculadoraPaypalState();
 }
 
-class _CalculadoraPaypalState extends State<CalculadoraPaypal>{
-   // Declara un objeto Interpreter que se utilizará para cargar el modelo TensorFlow Lite.
+class _CalculadoraPaypalState extends State<CalculadoraPaypal> {
+  // Declara un objeto Interpreter que se utilizará para cargar el modelo TensorFlow Lite.
   Interpreter? interpreter;
 
   // Variable para almacenar el valor de la predicción.
   var predValue = "";
+  double montopredecido = 0.0;
+  double amountToReceive = 0.0;
+  double totalCommission = 0.0;
+  double cobroRecibir = 0.0;
+  double gananciaRecibir = 0.0;
+
+  double montoRecibido = 0.0;
+  double totalComision = 0.0;
+  double montoEnviar = 0.0;
+  double ganancia = 0.0;
 
   // Método initState, se llama cuando el widget se inserta en el árbol de widgets.
   @override
@@ -31,7 +41,7 @@ class _CalculadoraPaypalState extends State<CalculadoraPaypal>{
   }
 
   // Método para obtener la predicción utilizando el modelo TensorFlow Lite.
-  getPrediction(input){
+  getPrediction(input) {
     // Crea un tensor para almacenar la salida del modelo.
     var output = List.filled(1, 0).reshape([1, 1]);
     // Ejecuta el modelo TensorFlow Lite con la entrada proporcionada y almacena la salida en el tensor de salida.
@@ -40,35 +50,40 @@ class _CalculadoraPaypalState extends State<CalculadoraPaypal>{
     var prediccion = output[0][0].toStringAsFixed(1).toString();
     return prediccion;
   }
-  
-  double amountToReceive = 0.0;
-  double commissionPercentage = 5.4;
-  double fixedCommission = 0.30;
-  double totalCommission = 0.0;
-  double amountToSend = 0.0;
-  double cobroRecibir = 0.0;
-  double gananciaRecibir = 0.0;
-
-  double montoRecibido = 0.0;
-  double comisionEnv = 13.0;
-  double totalComision = 0.0;
-  double montoEnviar = 0.0;
-  double ganancia = 0.0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculadora de Comisiones PayPal'),
+        leading: Container(
+          margin: EdgeInsets.only(left: 20.0),
+          child: Image.asset('assets/paypal.png'),
+          width: 30,
+          height: 30,
+        ),
+        title: Text(
+          'Comisiones Paypal',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Cliente Recibe a Paypal',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Container(
+              width: 500,
+              color: Colors.blue,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Cliente Recibe a Paypal',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
             ),
             SizedBox(height: 10),
             TextField(
@@ -80,23 +95,59 @@ class _CalculadoraPaypalState extends State<CalculadoraPaypal>{
                 setState(() {
                   amountToReceive = double.tryParse(value) ?? 0.0;
                   predValue = getPrediction([amountToReceive]);
+                  montopredecido = double.parse(predValue);
                   calculateValorEnviar();
                 });
               },
             ),
             SizedBox(height: 10),
-            Text('Hay que Enviar: \$${predValue} USDs'),
-            SizedBox(height: 10),
-            Text('La Comisión es de: \$${totalCommission.toStringAsFixed(2)} USDs'),
-            SizedBox(height: 10),
-            Text('Se debe cobrar: \$${cobroRecibir.toStringAsFixed(2)} USDs'),
-            SizedBox(height: 10),
-            Text('La Ganacia es de: \$${gananciaRecibir.toStringAsFixed(2)} USDs'),
-            
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          'Hay que Enviar: \$${montopredecido.toStringAsFixed(2)} USDs'),
+                      SizedBox(height: 10),
+                      Text(
+                          'La Comisión es de: \$${totalCommission.toStringAsFixed(2)} USDs'),
+                      SizedBox(height: 10),
+                      Text(
+                          'Se debe cobrar: \$${cobroRecibir.toStringAsFixed(2)} USDs'),
+                      SizedBox(height: 10),
+                      Text(
+                          'La Ganacia es de: \$${gananciaRecibir.toStringAsFixed(2)} USDs'),
+                    ],
+                  ),
+                  SizedBox(width: 65),
+                  Column(
+                    children: [
+                      Container(
+                        child: Image.asset("assets/recibir.png"),
+                        height: 110,
+                        width: 110,
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
             SizedBox(height: 40),
-            Text(
-              'Cliente Envia a Paypal',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Container(
+              width: 500,
+              color: Colors.blue,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Cliente Envia a Paypal',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
             ),
             SizedBox(height: 10),
             TextField(
@@ -112,27 +163,52 @@ class _CalculadoraPaypalState extends State<CalculadoraPaypal>{
               },
             ),
             SizedBox(height: 10),
-            Text('Recibira: \$${montoEnviar.toStringAsFixed(2)} USDs'),
-            SizedBox(height: 10),
-            Text('La Comisión es de: \$${totalComision.toStringAsFixed(2)} USDs'),
-            SizedBox(height: 10),
-            Text('La Ganacia es de: \$${ganancia.toStringAsFixed(2)} USDs'),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          'Recibira: \$${montoEnviar.toStringAsFixed(2)} USDs'),
+                      SizedBox(height: 10),
+                      Text(
+                          'La Comisión es de: \$${totalComision.toStringAsFixed(2)} USDs'),
+                      SizedBox(height: 10),
+                      Text(
+                          'La Ganacia es de: \$${ganancia.toStringAsFixed(2)} USDs'),
+                    ],
+                  ),
+                  SizedBox(width: 55),
+                  Column(
+                    children: [
+                      Container(
+                        child: Image.asset("assets/enviar.png"),
+                        width: 90,
+                        height: 90,
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-   void calculateValorEnviar() {
+  void calculateValorEnviar() {
     double percentageCommission = double.parse(predValue) - amountToReceive;
     totalCommission = percentageCommission;
-    cobroRecibir =  amountToReceive*1.20;
+    cobroRecibir = amountToReceive * 1.20;
     gananciaRecibir = cobroRecibir - double.parse(predValue);
   }
 
   void calculateCommissionEnvio() {
     double percentageCommission = (montoRecibido * 13.0) / 100;
-    double comisionPaypal = (montoRecibido * 5.0) / 100;
+    double comisionPaypal = (montoRecibido * 5.4) / 100;
     montoEnviar = montoRecibido - totalComision;
     totalComision = percentageCommission + 0.30;
     ganancia = percentageCommission - comisionPaypal;
